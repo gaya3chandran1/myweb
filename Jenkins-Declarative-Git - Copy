@@ -1,0 +1,21 @@
+currentBuild.displayName = "online-shopping-#"+currentBuild.number
+
+pipeline{
+    agent any
+    
+    environment{
+        PATH = "/usr/share/maven/bin:$PATH"
+    }
+    stages{
+        stage("Git Checkout"){
+            steps{
+                git credentialsId: 'github', url: 'https://github.com/gaya3chandran1/myweb.git'
+            }
+        }
+        stage("Maven Build"){
+            steps{
+                sh "mvn clean package"
+                sh "mv target/*.war target/myweb.war"
+            }
+        }       
+}
